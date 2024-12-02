@@ -367,6 +367,23 @@ for (size_t i = 0; i < nthreads; i++) {
     cerr << "latency data points: " << all_latencies.size() << endl;
 double p99_latency_ms = 0.0;
 if (!all_latencies.empty()) {
+     // Open a file in write mode
+    std::ofstream outfile("latencies.txt");
+    if (outfile.is_open()) {
+
+        // Write each value followed by a newline
+        for (const auto& latency : all_latencies) {
+            outfile << latency << '\n';
+        }
+
+        // Close the file
+        outfile.close();
+        std::cout << "Latencies saved to latencies.txt" << std::endl;
+
+    }
+    else
+        std::cerr << "Failed to open the file!" << std::endl;
+
     std::sort(all_latencies.begin(), all_latencies.end());
     size_t p99_index = static_cast<size_t>(0.99 * all_latencies.size());
     cerr << "p99 index: " << p99_index << endl;
